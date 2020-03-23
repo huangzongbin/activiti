@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krt.sx.mapper.ZCurrentItemMapper">
+
+    <sql id="Base_Column_List">
+        id,item_code,item_name,bj_type,law_time,promise_time,is_pay,agent_code,agent_name,area_code,area_name,px,state,remark,go_url,is_promise,promise_content,depart_name,depart_code,act_key,inserter,insert_time,updater,update_time
+    </sql>
+
+    <!-- 带参数查询当前使用的事项信息列表 -->
+    <select id="selectPageList" resultType="com.krt.sx.entity.ZCurrentItem">
+        select
+            <include refid="Base_Column_List"/>
+        from z_current_item where 1=1
+            <if test="itemCode !=null and itemCode!=''">
+                    and item_code like concat('%',#{itemCode},'%')
+            </if>
+            <if test="itemName !=null and itemName!=''">
+                    and item_name like concat('%',#{itemName},'%')
+            </if>
+            <if test="bjType !=null and bjType!=''">
+                        and bj_type = #{bjType}
+            </if>
+    </select>
+
+</mapper>
+

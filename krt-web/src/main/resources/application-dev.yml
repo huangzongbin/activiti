@@ -1,0 +1,124 @@
+# spring配置
+spring:
+  # 文件上传
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
+  # freemarker配置
+  freemarker:
+    allow-request-override: false
+    cache: false
+    charset: UTF-8
+    check-template-location: true
+    content-type: text/html
+    prefer-file-system-access: false
+    request-context-attribute: request
+    settings:
+      number_format: 0.##
+      template_update_delay: 0
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+  # Druid连接池配置
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/gxt?characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+      username: root
+      password: huang820112
+      initial-size: 1
+      min-idle: 1
+      max-active: 2
+      maxWait: 60000
+      minEvictableIdleTimeMillis: 300000
+      poolPreparedStatements: true
+      share-prepared-statements: true
+      maxPoolPreparedStatementPerConnectionSize: 50
+      testOnBorrow: false
+      testOnReturn: false
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 60000
+      validationQuery: select 1
+      filter:
+        stat:
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 5000
+        wall:
+          config:
+            multi-statement-allow: true
+          db-type: mysql
+          enabled: true
+      web-stat-filter:
+        enabled: false
+
+# 日志设置配置
+logging:
+  file: krt.log
+  file.max-history: 7
+  level:
+    com:
+      krt: DEBUG
+    javamelody: ERROR
+    root: INFO
+    springfox:
+      documentation:
+        swagger: ERROR
+
+# mybatis-plus
+mybatis-plus:
+  # 检测本地配置
+  check-config-location: false
+  # mapper文件
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  configuration:
+    # 查询map为空是保留字段
+    call-setters-on-nulls: true
+    # 设置当JDBC类型为空时,某些驱动程序 要指定值
+    jdbc-type-for-null: null
+    # 下划线转驼峰
+    map-underscore-to-camel-case: true
+  global-config:
+    # 打印banner
+    banner: false
+    db-config:
+      # 更新策略
+      field-strategy: not_null
+      # 主键类型
+      id-type: auto
+
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: false
+  # 排除链接（多个用逗号分隔）
+  excludes: /favicon.ico,/webjars/*,/html/*,/druid/*,/swagger-resources/*,/dist/*,/plugin/*,/file/*,/monitoring,/ws/*,/captcha.*,/activiti/extActModel/saveNode
+
+# 项目参数
+web:
+  # 系统缓存 ehcache 、 redis（需要配置redis参数）
+  cache: ehcache
+  # session 保存类别 memory:内存 redis:做分布式（需要配置redis参数）
+  session: memory
+  # 文件上传类型 location:本地 fastdfs:文件服务器（需要配置fastdfs参数）
+  upload-type: location
+  # 文件上传地址
+  update-path: d:\file\
+  # token默认过期时间
+  token-expire: 43200
+  # 接口文档
+  swagger-enable: true
+  # 文件访问前缀
+  file-prefix: https://www.krtimg.com/
+  # 开发模式 关闭验证码验证
+  verify-code: false
+
+# 代码生成器配置
+gen:
+  db-type: mysql
+  template-loader-path: /gen/
+  package-prefix: com.krt.
+
+
+

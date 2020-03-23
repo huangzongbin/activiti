@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krt.act.mapper.ActMapper">
+
+    <!--根据流程key 获取业务可用的流程-->
+    <select id="selectFlowsByActKey" resultType="java.util.Map">
+		select  id_ defId,name_ name,deployment_Id_ deploymentId,description_ description from act_re_procdef
+		where deployment_Id_ IN ( SELECT deployment_Id_ FROM act_re_model WHERE key_ = #{actKey})
+	</select>
+
+    <!-- 选择节点审批人 指定下一个节点指定人 -->
+    <select id="selectUser" resultType="java.util.Map">
+        SELECT DISTINCT NAME AS
+        user_name,
+        u.id user_id,
+        ( SELECT NAME FROM sys_role o WHERE o.id = nodeuser.user_id AND nodeuser.user_type = '2' ) AS role_name,
+        ( SELECT NAME FROM sys_organ o WHERE o.CODE = u.organ_id ) AS organ_name
+        FROM
+        sys_user u,
+        (
+        SELECT
+        user_type,
+        nu.user_id,
+        ns.node_type
+        FROM
+        ext_act_node_user nu,
+        ext_act_node_set ns
+        WHERE
+        ns.node_id = nu.node_id
+        AND nu.node_id = #{nodeId}) nodeuser
+
+        WHERE
+        (
+        ( user_type = '1' AND user_id = u.id )
+        OR ( user_type = '2' AND u.id IN ( SELECT user_id FROM sys_user_role ur WHERE ur.role_id = nodeuser.user_id ) )
+        OR ( user_type = '3' AND u.organ_id = user_id )
+        )
+        <if test="userName != null and userName != '' ">
+            AND name LIKE concat('%',#{userName},'%')
+        </if>
+    </select>
+
+    <!--流程根据业务id查询业务信息-->
+    <select id="selectBusiByBusId" resultType="java.util.Map">
+		select * from ${tableName} where id =#{id}
+	</select>
+
+    <!-- 查询我的待办 -->
+    <select id="selectMyToDoList" resultType="java.util.Map">
+        select
+        s1.name_ AS taskName,
+        s1.create_time_ AS createTime,
+        s1.id_ AS taskId,
+        s1.proc_inst_id_ AS instanceId,
+        s1.assignee_ AS dealId,
+        s2.def_id AS defId,
+        s2.code,
+        s2.act_key AS actKey,
+        s2.bus_id AS busId,
+        ( SELECT NAME FROM ext_act_business ab WHERE s2.act_key = ab.act_key ) AS busName,
+        ( SELECT NAME FROM sys_user u WHERE u.id = s2.start_user_Id ) AS startUserName,
+        ( SELECT NAME FROM sys_user u WHERE u.id = s1.assignee_ ) AS dealName,
+        (SELECT GROUP_CONCAT( NAME ) AS NAME FROM sys_user u WHERE find_in_set( u.id, s3. advance_id)) AS advanceName,
+        s3.advance_id as  advanceId
+        from
+        (select id_,name_,create_time_,proc_inst_id_,assignee_ from act_ru_task)s1 left join
+        (select def_id,code,act_key,bus_id,instance_id,start_user_Id from ext_act_flow_business) s2 on s1.proc_inst_id_ = s2.instance_id left join
+        (select advance_id,task_id FROM ext_act_task_log)s3 on s3.task_id = s1.id_
+        WHERE 1=1
+        <if test="dealId != null and dealId != '' ">
+            AND FIND_IN_SET(#{dealId},s3.advance_id)
+            AND (s1.ASSIGNEE_ is null or s1.ASSIGNEE_ = #{dealId})
+        </if>
+        <if test="code != null and code != '' ">
+            AND s2.code LIKE concat('%',#{code},'%')
+        </if>
+        <if test="busId != null and busId != '' ">
+            AND s2.bus_id = #{busId}
+        </if>
+        ORDER BY s1.create_time_ DESC
+    </select>
+
+    <!-- 我的已办列表 -->
+    <select id="selectMyDoneList" resultType="java.util.Map">
+        SELECT
+        a.insert_time,
+        a.deal_time,
+        a.bus_id AS busId,
+        a.def_id AS defId,
+        a.instance_id AS instanceId,
+        a.task_id AS taskId,
+        a.task_name AS taskName,
+        a.app_opinion AS remark,
+        fb.CODE,
+        fb.STATUS AS STATUS,
+        fb.act_key,
+        ( SELECT NAME FROM ext_act_business ab WHERE fb.act_key = ab.act_key ) AS busName,
+        ( SELECT NAME FROM sys_user u WHERE u.id = fb.start_user_Id ) AS startUserName,
+        ( SELECT NAME FROM sys_user u WHERE u.id = a.deal_id ) AS dealName,
+        ( SELECT GROUP_CONCAT( NAME ) AS NAME FROM sys_user u WHERE find_in_set( u.id, a.advance_id ) ) AS advanceName
+        FROM
+        ext_act_flow_business fb,
+        ext_act_task_log a
+        WHERE
+        a.instance_id = fb.instance_id
+        AND a.deal_time is not null
+        <if test="dealId != null and dealId != '' ">
+            AND a.deal_id = #{dealId}
+        </if>
+        <if test="code != null and code != '' ">
+            AND fb.code LIKE concat('%',#{code},'%')
+        </if>
+        <if test="busId != null and busId != '' ">
+            AND fb.bus_id = #{busId}
+        </if>
+        ORDER BY a.deal_time DESC
+    </select>
+
+    <!-- 查询最近的上一个节点 -->
+    <select id="selectNearNode" resultType="java.util.Map">
+        select
+        TASK_DEF_KEY_ AS nodeId , ID_ AS taskId from act_hi_taskinst
+        where
+        <foreach collection="list" index="index" item="item" separator=" OR ">
+           TASK_DEF_KEY_ = #{item}
+        </foreach>
+        ORDER BY start_time_ desc limit 0,1
+    </select>
+
+    <!--更新当前操作流程的业务表信息-->
+    <update id="updateBusInfo" parameterType="java.util.Map">
+        update ${tableName}
+        <set>
+            <if test="instanceId != null">instance_id= #{instanceId},</if>
+            <if test="defId != null">def_id= #{defId},</if>
+            <if test="startUserId!= null">start_user_id= #{startUserId},</if>
+            <if test="code != null">code= #{code},</if>
+            <if test="updateTime != null">update_time= #{updateTime},</if>
+            <if test="updateId != null">update_id= #{updateId},</if>
+            <if test="startTime != null">start_time= #{startTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="actResult != null">act_result = #{actResult},</if>
+            <if test="bizStatus != null">biz_status = #{bizStatus},</if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <!-- 更新业务表信息 -->
+    <update id="updateChangeBusInfo">
+        update ${tableName}
+        <set>
+            <foreach collection="fields" index="key" item="filed" separator=",">
+                ${filed.fieldName} = #{filed.fieldValue}
+            </foreach>
+            <if test="instanceId != null">instance_id= #{instanceId},</if>
+        </set>
+        where ${pkName} =#{id}
+    </update>
+
+    <!-- 更新业务表状态 -->
+    <update id="updateBizStatus">
+        update ${tableName}  set biz_status = #{status} where  id = #{busId}
+    </update>
+</mapper>

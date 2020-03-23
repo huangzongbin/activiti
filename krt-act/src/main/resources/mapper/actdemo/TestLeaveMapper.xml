@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krt.actdemo.mapper.TestLeaveMapper">
+
+    <sql id="Base_Column_List">
+        id,user_id,user_name,title,day,reason,status,biz_status,start_time,instance_id,def_id,start_user_id,code,inserter,insert_time,updater,update_time,remark,act_result
+    </sql>
+
+    <!-- 带参数查询请假流程测试列表 -->
+    <select id="selectPageList" resultType="com.krt.actdemo.entity.TestLeave">
+        select
+            <include refid="Base_Column_List"/>
+        from test_leave where 1=1
+        <if test="inserter != null and inserter != '' ">
+            AND inserter=#{inserter}
+        </if>
+    </select>
+
+</mapper>
+

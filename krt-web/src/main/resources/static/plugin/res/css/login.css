@@ -1,0 +1,61 @@
+@charset "UTF-8";
+body{background: #0d8ef1;}
+.container{width: 100%; height: 100%; background: linear-gradient(to bottom right, rgba(49,96,245, 0), rgba(49,96,245, 1))}
+.loginLCorner, .loginRCorner{position: absolute; top: 0; display: block; width: 88px; height: 100%; }
+.loginLCorner{left: -88px; background: url(../images/login_l_corner.png) 0 0 no-repeat; background-size: 100% 100%;}
+.loginRCorner{right: -88px; background: url(../images/login_r_corner.png) 0 0 no-repeat; background-size: 100% 100%;}
+.loginWrap{height: 642px; width: 1086px; position: absolute; left: 50%; margin-left: -574px; top: 50%; margin-top: -321px;}
+.loginOutBox{background: #fff; height: 100%;}
+.loginBox{margin-left: 40px; padding-top: 40px; width: 50%;}
+.loginTit{font-size: 4.8rem; color: #262626; font-size: 48px\9;}
+.loginSubTit{color: #7d7d7d; font-size: 2rem; font-size: 20px\9;}
+.loginFormWrap{margin-top: 60px;}
+.loginFormRow.cur{border: 1px solid #0d8df0;}
+.loginFormRow{height: 46px; border-radius: 20px; padding: 0 20px; position: relative; margin-bottom: 30px; background: #f2f8ff; border: 1px solid #fff;}
+.loginUIcon{display: inline-block; vertical-align: sub; width: 40px; height: 18px; background: url(../images/login_u_icon.png)  left center no-repeat; /*border-right: 1px solid #666;*/}
+.inputDelIcon, .eyeIcon{display: inline-block; width: 40px; height: 40px; position: absolute; top: 2px; right: 20px; cursor: pointer;}
+.inputDelIcon{background: url(../images/input_del.png) no-repeat center center;}
+.eyeIcon.open{background: url(../images/open_eye.png) no-repeat center center;}
+.eyeIcon.close{background: url(../images/close_eye.png) no-repeat center center;}
+.loginPIcon{display: inline-block; vertical-align: sub; width: 40px; height: 18px; background: url(../images/login_p_icon.png)  left center no-repeat;}
+.loginInput{width: 70%; border:0; height: 100%; font-size: 1.6rem; font-size: 16px\9; color: #666; background: none; line-height: 46px;}
+.verifyCodeImg{display: inline-block; float: right; height: 100%; border-radius: 20px; border: 1px solid #e5e5e5;}
+.loginBtnWrap{margin-top: 50px;}
+.loginBtn{background: #30bbee; background: linear-gradient(to right, #30bbee, #1395f3); width: 100%; border: 0; line-height: 50px; color: #fff; font-size: 1.8rem; font-size: 18px\9; border-radius: 20px; cursor: pointer;}
+.loginBtn:hover{background: linear-gradient(to right, #1395f3, #30bbee);}
+.otherLink{text-align: right; margin-top: 10px;}
+.otherLink .link{color: #666; font-size: 1.6rem; font-size: 16px\9;}
+.link:hover{color: #ff5400;}
+
+.loginRPanel{position: absolute; width: 606px; height: 786px; right: -150px; top: -50px; background: url(../images/login_r_panel.png) 0 0; background-size: 606px 786px; z-index: 2;}
+.folderImg{position: absolute; left: 0px; top: 310px; display: block; width: 141px; height: 157px; background: url(../images/folder.png) no-repeat center center; animation: am-fade .6s ease-in, am-slide-right .6s ease-in;}
+.boardImg{position: absolute; left: 230px; top: 90px; display: block; width: 237px; height: 309px; background: url(../images/board.png) no-repeat center center;animation: am-fade .6s ease-in, am-slide-top 1s ease-out; }
+.phoneTableImg{position: absolute; left: 140px; top: 430px; display: block; width: 308px; height: 239px; background: url(../images/phone_table.png) no-repeat center center; animation: am-fade .6s ease-in, am-slide-bottom 1s ease-out;}
+.paperImg{position: absolute; left: 164px; top: 414px; display: block; width: 308px; height: 177px; background: url(../images/paper.png) no-repeat center center; animation: am-fade .6s ease-in, am-slide-right 1s ease-out;}
+
+@media only screen and (max-width: 1024px) {
+.loginWrap{width: 90%; left: 5%; margin-left: 0; height: 90%; top: 5%; margin-top: 0;}
+.loginBox{width: 100%; padding-right: 80px;}
+.loginRPanel{display: none;}
+}
+@media only screen and (max-width: 768px) {
+.loginWrap{width: 90%; left: 5%; margin-left: 0; height: 90%; top: 5%; margin-top: 0;}
+.loginOutBox{border-radius: 20px;}
+.loginBox{margin-left: 0px; padding: 20px; width: 100%;}
+.loginTit{font-size: 3rem;}
+.loginSubTit{font-size: 1.6rem;}
+.loginRPanel, .loginLCorner, .loginRCorner{display: none;}
+.verifyCode{width: 70%;}
+}
+@media only screen and (max-width: 641px) {
+.loginTit{font-size: 2.8rem;}
+.loginSubTit{font-size: 1.6rem;}
+.loginBox{padding: 20px 10px;}
+.inputDelIcon, .eyeIcon{right: 10px;}
+.verifyCode{width: 150px;}
+}
+@media only screen and (max-width: 320px) {
+.loginTit{font-size: 2.4rem;}
+.loginSubTit{font-size: 1.4rem;}
+.verifyCode{width: 100px;}
+}

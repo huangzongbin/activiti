@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krt.sx.mapper.TestPxMapper">
+
+    <sql id="Base_Column_List">
+        id,user_id,user_name,title,day,reason,status,biz_status,start_time,instance_id,def_id,start_user_id,code,act_result,remark,inserter,insert_time,updater,update_time
+    </sql>
+
+    <!-- 带参数查询报销流程测试列表 -->
+    <select id="selectPageList" resultType="com.krt.sx.entity.TestPx">
+        select
+            <include refid="Base_Column_List"/>
+        from test_px where 1=1
+            <if test="userName !=null and userName!=''">
+            </if>
+            <if test="title !=null and title!=''">
+            </if>
+    </select>
+
+</mapper>
+

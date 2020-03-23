@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>krt</artifactId>
+        <groupId>com.krt</groupId>
+        <version>${krt.version}</version>
+    </parent>
+
+    <artifactId>krt-common</artifactId>
+    <name>krt-common</name>
+    <url>http://www.cnkrt.com</url>
+    <description>公共工具</description>
+
+    <dependencies>
+        <!-- 图片处理 -->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>${thumbnailator.version}</version>
+        </dependency>
+        <!-- UserAgent -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>${UserAgent.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krt.biz.mapper.QltOrganDepartmentMapper">
+
+    <sql id="Base_Column_List">
+        id,pid,organ_id,name,code,type,post_num,user_num,inserter,insert_time,updater,update_time
+    </sql>
+
+    <!-- 带参数查询内设机构设置列表 -->
+    <select id="selectPageList" resultType="com.krt.biz.entity.QltOrganDepartment">
+        select
+            <include refid="Base_Column_List"/>
+        from qlt_organ_department where 1=1
+            <if test="depName !=null and depName!=''">
+            </if>
+    </select>
+
+
+    <!-- 根据pid查询内设机构设置树列表 -->
+    <select id="selectByPid" resultType="com.krt.biz.entity.QltOrganDepartment">
+        select
+        id,pid,organ_id,name,code,type,post_num,user_num,inserter,insert_time,updater,update_time,
+        (select CASE WHEN count(*)>0 THEN 'true' ELSE 'false' END from qlt_organ_department s where s.pid = qlt_organ_department.id) hasChild
+        from qlt_organ_department where pid = #{pid}
+        <if test="organId!=null and organId!=''">
+            and organ_id=#{organId}  <!-- 如果组织机构的ID不为空时，刚将单位的数据查出来 -->
+        </if>
+    </select>
+
+    <!--  -->
+    <select id="selectByPara" resultType="com.krt.biz.entity.QltOrganDepartment">
+        select
+        id,pid,organ_id,name,code,type,post_num,user_num,inserter,insert_time,updater,update_time,
+        (select CASE WHEN count(*)>0 THEN 'true' ELSE 'false' END from qlt_organ_department s where s.pid = qlt_organ_department.id) hasChild
+        from qlt_organ_department where 1=1
+        <if test="departCode!=null and departCode!=''">
+            and pid=(select id from qlt_organ_department where code = #{departCode})
+        </if>
+    </select>
+
+    <!-- 查询内设机构树列表 -->
+    <select id="selectList" resultType="com.krt.biz.entity.QltOrganDepartment">
+        select
+        id,pid,organ_id,name ,code ,type,post_num,user_num,inserter,insert_time,updater,update_time
+        from qlt_organ_department
+        where 1=1
+        <if test="organId!=null and organId!=''">
+            and organ_id=#{organId}  <!-- 如果组织机构的ID不为空时，刚将单位的数据查出来 -->
+        </if>
+    </select>
+
+    <!-- 查询内设机构是否有子集 -->
+    <select id="selectChildList" resultType="java.util.Map">
+        select id,pid,organ_id,name ,code ,type,post_num,user_num,inserter,insert_time,updater,update_time
+        from qlt_organ_department
+        where pid=#{id}
+    </select>
+
+    <!-- 获取最大的编码 -->
+    <select id="selectLastCode" resultType="java.lang.String">
+        select ifnull(max(code),'0')  code from qlt_organ_department where code like concat(#{code},'__')
+        <if test="id!=null and id!=''">
+            and id != #{id}
+        </if>
+    </select>
+
+    <!-- 查询内设机构的code得到一条记录 -->
+    <select id="selectByCode" resultType="com.krt.biz.entity.QltOrganDepartment">
+        select
+        id,pid,organ_id,name ,code ,type,post_num,user_num,inserter,insert_time,updater,update_time
+        from qlt_organ_department
+        where 1=1
+        <if test="code!=null and code!=''">
+            and code=#{code}                <!-- 如果组织机构的code不为空时，刚将单位的数据查出来 -->
+        </if>
+    </select>
+
+</mapper>
+

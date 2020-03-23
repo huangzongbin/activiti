@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krt.act.mapper.ExtActBusinessMapper">
+
+    <sql id="Base_Column_List">
+        pid,id,name,act_key,type,class_url,sort,remark,inserter,insert_time,updater,update_time
+    </sql>
+
+    <!-- 根据pid查询业务流程  对应的 业务表树列表 -->
+    <select id="selectByPid" resultType="com.krt.act.entity.ExtActBusiness">
+        select
+            pid,id,name,act_key,type,class_url,sort,remark,inserter,insert_time,updater,update_time,
+            (select CASE WHEN count(*)>0 THEN 'true' ELSE 'false' END from ext_act_business s where s.pid = ext_act_business.id) hasChild
+        from ext_act_business where pid = #{pid} order by sort asc
+    </select>
+
+    <!--根据ext_act_model中的modelId查询对应业务-->
+    <select id="selectActBusByModelId" resultType="com.krt.act.entity.ExtActBusiness">
+		select
+			b.id AS id,b.class_url AS classUrl,b.act_key as actKey
+		from ext_act_model m LEFT JOIN ext_act_business b ON m.ext_business_id=b.id
+		WHERE  m.model_id= #{modelId}
+	</select>
+
+</mapper>
+

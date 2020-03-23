@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.krt.act.mapper.ExtActNodeButtonMapper">
+
+    <sql id="Base_Column_List">
+        id,node_id,button_code,button_name,callback,inserter,insert_time,updater,update_time
+    </sql>
+
+    <!-- 带参数查询审批按钮列表 -->
+    <select id="selectPageList" resultType="com.krt.act.entity.ExtActNodeButton">
+        select
+            <include refid="Base_Column_List"/>
+        from ext_act_node_button where 1=1
+    </select>
+
+</mapper>
+
