@@ -7,7 +7,7 @@ export JRE_HOME=$JAVA_HOME/jre
 ## 项目路径
 SERVICE_DIR=/home/ys/krt-web
 ## 服务名称
-SERVICE_NAME=krt-web-1.0-SNAPSHOT
+SERVICE_NAME=activiti
 ## jar名称
 JAR_NAME=$SERVICE_NAME\.jar
 ## 进程名称

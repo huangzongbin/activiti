@@ -24,12 +24,13 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/gxt?characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+      #url: jdbc:mysql://127.0.0.1:3306/gxt?characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+      url: jdbc:mysql://123.207.168.74:3306/activiti?characterEncoding=utf8&useSSL=true&allowMultiQueries=true
       username: root
-      password: huang820112
+      password: huang820112!
       initial-size: 1
       min-idle: 1
-      max-active: 2
+      max-active: 29
       maxWait: 60000
       minEvictableIdleTimeMillis: 300000
       poolPreparedStatements: true
@@ -55,7 +56,7 @@ spring:
 
 # 日志设置配置
 logging:
-  file: krt.log
+  file: log/krt.log
   file.max-history: 7
   level:
     com:

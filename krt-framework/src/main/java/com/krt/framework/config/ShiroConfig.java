@@ -2,7 +2,6 @@ package com.krt.framework.config;
 
 import com.krt.framework.shiro.KrtWebSessionManager;
 import com.krt.framework.shiro.ShiroRealm;
-import com.krt.framework.shiro.ddd;
 import com.krt.redis.dao.RedisSessionDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -98,9 +97,8 @@ public class ShiroConfig {
      * @return {@link HashedCredentialsMatcher}
      */
     @Bean
-    public ddd hashedCredentialsMatcher() {
-        ddd hashedCredentialsMatcher = new ddd();
-
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         // 采用MD5方式加密
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
         // 设置加密次数
