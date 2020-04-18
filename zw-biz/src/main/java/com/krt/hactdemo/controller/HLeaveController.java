@@ -1,6 +1,9 @@
 package com.krt.hactdemo.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.krt.act.dto.ProcessTaskDTO;
+import com.krt.actdemo.entity.TestLeave;
+import com.krt.actdemo.service.ITestLeaveService;
 import com.krt.common.annotation.KrtLog;
 import com.krt.common.base.BaseController;
 import com.krt.common.bean.DataTable;
@@ -9,10 +12,7 @@ import com.krt.hactdemo.entity.HLeave;
 import com.krt.hactdemo.service.IHLeaveService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.Map;
@@ -140,5 +140,15 @@ public class HLeaveController extends BaseController {
         return ReturnBean.ok();
     }
 
+
+
+    @GetMapping("hactdemo/hLeave/leave")
+    public String leave(ProcessTaskDTO processTaskDTO) {
+
+        HLeave hleave=hLeaveService.selectById(processTaskDTO.getBusId());
+        request.setAttribute("hleave",hleave);
+        request.setAttribute("processTaskDTO",processTaskDTO);
+        return   "hactdemo/hLeave/hleave";
+    }
 
 }

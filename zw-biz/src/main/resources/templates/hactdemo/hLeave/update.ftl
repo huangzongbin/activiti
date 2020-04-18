@@ -14,6 +14,7 @@
                          <span class="form-required">*</span>请假标题：
                     </label>
                     <div class="col-sm-8">
+    <input type="text" id="title" name="title" value="${hLeave.title!}" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -23,6 +24,7 @@
                          <span class="form-required">*</span>请假天数：
                     </label>
                     <div class="col-sm-8">
+    <input type="text" id="day" name="day" value="${hLeave.day!}" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -34,6 +36,7 @@
                          原因：
                     </label>
                     <div class="col-sm-8">
+    <input type="text" id="reason" name="reason" value="${hLeave.reason!}" class="form-control">
                     </div>
                 </div>
             </div>

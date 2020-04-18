@@ -259,7 +259,7 @@ public class ExtActDealController extends BaseController {
      */
     @GetMapping("act/deal/taskInfo")
     public String taskInfo(ProcessTaskDTO processTaskDTO, String flag) {
-        //1：办理任务 2：查看任务
+        //2：办理任务 1：查看任务
         boolean b = "2".equals(flag) || "1".equals(flag);
         Assert.validate(!b, "参数flag错误!");
         ExtActNodeSet nodeSet;
