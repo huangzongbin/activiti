@@ -53,7 +53,18 @@ spring:
           enabled: true
       web-stat-filter:
         enabled: false
-
+  redis:
+    database: 1
+    host: 123.207.168.74
+    lettuce:
+      pool:
+        max-active: 50
+        max-idle: 1
+        max-wait: 5000
+        min-idle: 1
+    password:
+    port: 6378
+    timeout: 3600
 # 日志设置配置
 logging:
   file: log/krt.log
@@ -99,7 +110,7 @@ xss:
 # 项目参数
 web:
   # 系统缓存 ehcache 、 redis（需要配置redis参数）
-  cache: ehcache
+  cache: redis
   # session 保存类别 memory:内存 redis:做分布式（需要配置redis参数）
   session: memory
   # 文件上传类型 location:本地 fastdfs:文件服务器（需要配置fastdfs参数）
