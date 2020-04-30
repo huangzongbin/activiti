@@ -84,16 +84,46 @@
                     {
                         title: "操作", data: "id", orderable: false,
                         "render": function (data, type, row) {
-                            return ' <@shiro.hasPermission name="hactDemon:hLeave:update">'
-                                + '<button class="btn btn-xs btn-warning updateBtn" rid="' + row.id + '">'
-                                + '<i class="fa fa-edit fa-btn"></i>修改'
-                                + '</button>'
-                                + '</@shiro.hasPermission>'
-                                + '<@shiro.hasPermission name="hactDemon:hLeave:delete">'
-                                + '<button class="btn btn-xs btn-danger deleteBtn" rid="' + row.id + '">'
-                                + '<i class="fa fa-trash fa-btn"></i>删除'
-                                + '</button>'
-                                + '</@shiro.hasPermission>';
+                            if(row.state ==1){
+                                return' <button class="btn btn-xs btn-primary submitBtn" onclick="flowSumbit(\'leave\',\'' + row.id + '\')">'
+                                    + '<i class="fa fa-check fa-btn"></i>提交'
+                                    + '</button>'
+                                    + '<button class="btn btn-xs btn-primary submitBtn" onclick="autoSumbit(\'leave\',\'' + row.id + '\')">'
+                                    + '<i class="fa fa-check fa-btn"></i>自动提交'
+                                    + '</button>'
+                                    +' <@shiro.hasPermission name="hactDemon:hLeave:update">'
+                                    + '<button class="btn btn-xs btn-warning updateBtn" rid="' + row.id + '">'
+                                    + '<i class="fa fa-edit fa-btn"></i>修改'
+                                    + '</button>'
+                                    + '</@shiro.hasPermission>'
+                                    + '<@shiro.hasPermission name="hactDemon:hLeave:delete">'
+                                    + '<button class="btn btn-xs btn-danger deleteBtn" rid="' + row.id + '">'
+                                    + '<i class="fa fa-trash fa-btn"></i>删除'
+                                    + '</button>'
+                                    + '</@shiro.hasPermission>';
+                            }if ((row.status == '2' || row.status == '3' || row.status == '4') && row.actResult != '2') {
+                                return '<button class="btn btn-xs btn-info" onclick="doTaskTab(\'leave\',\'' + row.id + '\',\'' + row.instanceId + '\')">'
+                                    + '<i class="fa fa-eye fa-btn"></i>审批记录'
+                                    + '</button>';
+                            }
+                            if ((row.status == '2' || row.status == '3') && row.actResult == '2') {
+                                return ' <button class="btn btn-xs btn-primary submitBtn" onclick="flowSumbit(\'leave\',\'' + row.id + '\')">'
+                                    + '<i class="fa fa-check fa-btn"></i>提交'
+                                    + '</button>'
+                                    + '<button class="btn btn-xs btn-primary submitBtn" onclick="autoSumbit(\'leave\',\'' + row.id + '\')">'
+                                    + '<i class="fa fa-check fa-btn"></i>自动提交'
+                                    + '</button>'
+                                    +' <@shiro.hasPermission name="hactDemon:hLeave:update">'
+                                    + '<button class="btn btn-xs btn-warning updateBtn" rid="' + row.id + '">'
+                                    + '<i class="fa fa-edit fa-btn"></i>修改'
+                                    + '</button>'
+                                    + '</@shiro.hasPermission>'
+                                    + '<@shiro.hasPermission name="hactDemon:hLeave:delete">'
+                                    + '<button class="btn btn-xs btn-danger deleteBtn" rid="' + row.id + '">'
+                                    + '<i class="fa fa-trash fa-btn"></i>删除'
+                                    + '</button>'
+                                    + '</@shiro.hasPermission>';
+                            }
                         }
                     }
                 ]

@@ -80,6 +80,45 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+           <!-- <plugin>
+              <groupId>com.spotify</groupId>
+              <artifactId>docker-maven-plugin</artifactId>
+              <version>${docker-maven-plugin.version}</version>
+               &lt;!&ndash;将插件绑定在某个阶段执行&ndash;&gt;
+              <executions>
+                  <execution>
+                      <id>build-image</id>
+                   &lt;!&ndash;  将 mvn docker:build 绑定至 mvn package 上
+                      即当执行 mvn package 时，会自动执行 mvn docker:build 生成镜像&ndash;&gt;
+                      <phase>package</phase>
+                      <goals>
+                          <goal>build</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <configuration>
+                  &lt;!&ndash; 指定生成的镜像名&ndash;&gt;
+                  <imageName>jx-epana/epana-auth</imageName>
+                  &lt;!&ndash; 指定版本号&ndash;&gt;
+                  <imageTags>
+                      <imageTag>latest</imageTag>
+                  </imageTags>
+                   &lt;!&ndash;指定远程服务器 Docker 地址&ndash;&gt;
+                  <dockerHost>http://172.0.52.154:2375</dockerHost>
+                   Dockerfile位置
+                  <dockerDirectory>${project.basedir}/src/main/resources/docker</dockerDirectory>
+                  <resources>
+                      <resource>
+                           &lt;!&ndash;容器中自定义 jar 包存放路径&ndash;&gt;
+                          <targetPath>/</targetPath>
+                         &lt;!&ndash;本地 jar 包所在路径&ndash;&gt;
+                          <directory>${project.build.directory}</directory>
+                           本地 jar 包名称　
+                          <include>${project.build.finalName}.jar</include>
+                      </resource>
+                  </resources>
+              </configuration>
+          </plugin>-->
         </plugins>
     </build>
 

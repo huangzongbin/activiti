@@ -21,6 +21,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 系统登录控制层
@@ -41,6 +43,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private IRoleScopeService roleScopeService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 是否开启验证码
@@ -101,6 +106,7 @@ public class LoginController extends BaseController {
             SessionUser sessionUser = new SessionUser();
             BeanUtils.copyProperties(user, sessionUser);
             ShiroUtils.setSessionAttribute(GlobalConstant.SESSION_USER, sessionUser);
+           redisTemplate.opsForValue().set("user:"+sessionUser.getUsername(),sessionUser,30, TimeUnit.MINUTES);
             //数据权限
             if (!sessionUser.isAdmin()) {
                 List<String> dataId = roleScopeService.selectUserDataScope(user);

@@ -62,7 +62,7 @@ spring:
         max-idle: 1
         max-wait: 5000
         min-idle: 1
-    password:
+    password: huang820112
     port: 6378
     timeout: 3600
 # 日志设置配置
