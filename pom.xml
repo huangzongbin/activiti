@@ -36,7 +36,7 @@
         <krt.version>3.1.4</krt.version>
         <mybatis-plus-spring-boot.version>3.0.7.1</mybatis-plus-spring-boot.version>
         <druid.version>1.1.10</druid.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.9.1</shiro.version>
         <shiro-freemarker-tags.version>0.1</shiro-freemarker-tags.version>
         <swagger.version>2.4.0</swagger.version>
         <fastjson.version>1.2.38</fastjson.version>
